@@ -105,6 +105,26 @@ using namespace std;
 
         return newhead;
     }
+
+    Node* reverseK(Node* &head,int k){
+        Node* prevptr=NULL;
+        Node* currptr=head;
+        Node* nextptr;
+
+        int count=0;
+        while(currptr != NULL && count<k){
+            nextptr=currptr->next;
+            currptr->next=prevptr;
+
+            prevptr=currptr;
+            currptr=nextptr;
+            count++;
+        }
+        if(nextptr != NULL)
+        head->next=reverseK(nextptr,k);
+
+        return prevptr;
+    }
     int main()
     {
         Node* head=NULL;
@@ -113,7 +133,7 @@ using namespace std;
         insertAtTail(head,2);
         insertAtTail(head,3);
         insertAtTail(head,4);
-        insertAtHead(head,0);
+        //insertAtHead(head,0);
         insertAtTail(head,5);
         insertAtTail(head,6);
 
@@ -126,10 +146,14 @@ using namespace std;
             cout<<"Key is found."<<endl;
         }
         //delete the value from linked list
-        deletion(head,0);
+            //deletion(head,0);
         
-        //display the data of link list
-        display(head=reverse(head));
+        //display the data of reversed link list
+            //display(head=reverse(head));
+
+        //display the data of k reversed link list; k=2
+        Node* new_head = reverseK(head,2);
+        display(new_head);
         return 0;
     }
     
