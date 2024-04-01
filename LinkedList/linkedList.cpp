@@ -125,6 +125,52 @@ using namespace std;
 
         return prevptr;
     }
+
+    void createCycle(Node* &head,int pos){
+        Node* temp=head;
+        Node* startNode;
+        int count=0;
+        while(temp->next != NULL){
+            if(count==pos){
+                startNode=temp;
+            }
+            temp=temp->next;
+            count++;
+        }
+        temp->next=startNode;
+    }
+    bool detectCycle(Node* &head){
+        Node* slow=head;
+        Node* fast=head;
+
+        while(fast !=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(fast==slow){
+                return true;
+            }
+        }
+        return false;
+    }
+    //floyed algorithm
+    void removeCyccle(Node* head){
+        Node* slow=head;
+        Node* fast=head;
+
+        do{
+            slow=slow->next;
+            fast=fast->next->next;
+        } while(slow !=fast);
+
+        fast=head;
+        while(slow->next!=fast->next){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        slow->next=NULL;
+    }
+    
+
     int main()
     {
         Node* head=NULL;
@@ -136,15 +182,12 @@ using namespace std;
         //insertAtHead(head,0);
         insertAtTail(head,5);
         insertAtTail(head,6);
-
-        
-        
-        
+        insertAtTail(head,7);
 
         // to search 4
-        if(search(head,4)){
-            cout<<"Key is found."<<endl;
-        }
+        // if(search(head,4)){
+        //     cout<<"Key is found."<<endl;
+        // }
         //delete the value from linked list
             //deletion(head,0);
         
@@ -152,9 +195,14 @@ using namespace std;
             //display(head=reverse(head));
 
         //display the data of k reversed link list; k=2
-        Node* new_head = reverseK(head,2);
-        display(new_head);
+            // Node* new_head = reverseK(head,2);
+            // display(new_head);
+
+
+        createCycle(head,3);
+        
+        //display(head);
+
+        cout<<detectCycle(head);
         return 0;
     }
-    
-    
