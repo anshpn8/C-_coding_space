@@ -170,9 +170,69 @@ using namespace std;
         slow->next=NULL;
     }
     
+    Node* mergeTowSortedList(Node* head1, Node* head2){
+        
+        Node* temp1=head1;
+        Node* temp2=head2;
+        Node* dummy=NULL;
+        while(temp1!=NULL && temp2!=NULL){
+            if(temp1->data < temp2->data){
+                insertAtTail(dummy,temp1->data);
+                temp1=temp1->next;
+            }
+            else if(temp1->data > temp2->data){
+                insertAtTail(dummy,temp1->data);
+                temp2=temp2->next;
+            }
+            
+        }
+        while(temp1!=NULL){
+            insertAtTail(dummy,temp1->data);
+                temp1=temp1->next;
+                
+        }
+        while(temp2!=NULL){
+            insertAtTail(dummy,temp2->data);
+                temp2=temp2->next;
+                
+        }
+        return dummy->next;
+    }
 
+    int length(Node* head){
+        Node* temp=head;
+        int l;
+        while(temp !=NULL){
+            temp=temp->next;
+            l++;
+        }
+        return l;
+    }
+    Node* appendKTail(Node* head,int k){
+        int l=length(head);
+
+        Node* temp=head;
+        Node* newTail;
+        Node* newHead;
+        int count=1;
+        while(temp->next !=NULL){
+            if(count==l-k){
+                newTail=temp;
+            }
+            if(count==l-k+1){
+                newHead=temp;
+            }
+            temp=temp->next;
+            count++;
+        }
+        newTail->next=NULL;
+        temp->next=head;
+
+        return newHead;    
+    }
     int main()
     {
+        /*
         Node* head=NULL;
         //insert the value
         insertAtTail(head,1);
@@ -183,6 +243,12 @@ using namespace std;
         insertAtTail(head,5);
         insertAtTail(head,6);
         insertAtTail(head,7);
+
+        createCycle(head,3);
+
+        cout<<detectCycle(head);
+        */
+
 
         // to search 4
         // if(search(head,4)){
@@ -197,12 +263,20 @@ using namespace std;
         //display the data of k reversed link list; k=2
             // Node* new_head = reverseK(head,2);
             // display(new_head);
-
-
-        createCycle(head,3);
+        Node* head1=NULL;
+       // Node* head2=NULL;
+        int arr[6]={1,3,4,6,7,9};
+        int arr2[6]={2,5,8,10,11,12};
+        for(int i=0; i<6;i++){
+            insertAtTail(head1,arr[i]);
+        }
+        // for(int i=0; i<6;i++){
+        //     insertAtTail(head2,arr[i]);
+        // }
+        // Node* head3=mergeTowSortedList(head1,head2);
         
-        //display(head);
 
-        cout<<detectCycle(head);
+        
+        display(appendKTail(head1,3));
         return 0;
     }
