@@ -71,18 +71,18 @@ using namespace std;
         delete toDelete;
     }
 
-        bool search(Node* head,int key){
-            Node* temp=head;
-            while(temp!=NULL){
-                if(temp->data==key){
-                    return true;
-                }
-                temp=temp->next;
+    bool search(Node* head,int key){
+        Node* temp=head;
+        while(temp!=NULL){
+            if(temp->data==key){
+                return true;
             }
-            return false;
+            temp=temp->next;
         }
+            return false;
+    }
 
-        Node* reverse(Node* head){
+    Node* reverse(Node* head){
             Node* prevptr=NULL;
             Node* currptr=head;
             Node* nextptr;
@@ -215,6 +215,7 @@ using namespace std;
         Node* newTail;
         Node* newHead;
         int count=1;
+        k=k%l;
         while(temp->next !=NULL){
             if(count==l-k){
                 newTail=temp;
@@ -230,6 +231,56 @@ using namespace std;
 
         return newHead;    
     }
+
+    void intersect(Node* &head1,Node* &head2,int pos){
+        Node* temp1=head1;
+        pos--;
+        while(pos--){
+            temp1=temp1->next;
+        }
+        
+        Node* temp2=head2;
+        while (temp2->next!=NULL)
+        {
+            temp2=temp2->next;
+        }
+        temp2->next=temp1;
+    }
+
+    int intersectionPoint(Node* &head1,Node* &head2){
+        int l1=length(head1);
+        int l2=length(head2);
+
+        int d=0;
+        Node* ptr1;
+        Node* ptr2;
+        if(l1>l2){
+            d=l1-l2;
+            ptr1=head1;
+            ptr2=head2;
+        }
+        else{
+            d=l2-l1;
+            ptr1=head2;
+            ptr2=head1;
+        }
+        while(d){
+            ptr1=ptr1->next;
+            if(ptr1==NULL){
+                return -1;
+            }
+            d--;
+        }
+        while(ptr1!=NULL && ptr2!=NULL){
+            if(ptr1==ptr2){
+                return ptr1->data;
+            }
+            ptr1=ptr1->next;
+            ptr2=ptr2->next;
+        }
+        return -1;
+    }
+
     int main()
     {
         /*
@@ -264,19 +315,22 @@ using namespace std;
             // Node* new_head = reverseK(head,2);
             // display(new_head);
         Node* head1=NULL;
-       // Node* head2=NULL;
-        int arr[6]={1,3,4,6,7,9};
-        int arr2[6]={2,5,8,10,11,12};
-        for(int i=0; i<6;i++){
+        Node* head2=NULL;
+        int arr[7]={1,3,4,8,10,11,12};
+        int arr2[3]={2,5,6};
+        for(int i=0; i<7;i++){
             insertAtTail(head1,arr[i]);
         }
-        // for(int i=0; i<6;i++){
-        //     insertAtTail(head2,arr[i]);
-        // }
+        for(int i=0; i<3;i++){
+            insertAtTail(head2,arr2[i]);
+        }
         // Node* head3=mergeTowSortedList(head1,head2);
-        
+        //display(appendKTail(head1,3))
+        //intersect(head1,head2,5);
+        display(head1);
+        display(head2);
+        cout<<intersectionPoint(head1,head2);
 
-        
-        display(appendKTail(head1,3));
+
         return 0;
     }
