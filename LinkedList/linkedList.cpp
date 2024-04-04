@@ -1,4 +1,5 @@
 #include<iostream>
+#include <vector> 
 using namespace std;
 
 
@@ -174,27 +175,28 @@ using namespace std;
         
         Node* temp1=head1;
         Node* temp2=head2;
-        Node* dummy=NULL;
+        Node* dummy=new Node(-1);
+        Node* p3=dummy;
         while(temp1!=NULL && temp2!=NULL){
             if(temp1->data < temp2->data){
-                insertAtTail(dummy,temp1->data);
+                p3->next=temp1;
                 temp1=temp1->next;
             }
-            else if(temp1->data > temp2->data){
-                insertAtTail(dummy,temp1->data);
+            else{
+                p3->next=temp2;
                 temp2=temp2->next;
             }
-            
+            p3=p3->next;   
         }
         while(temp1!=NULL){
-            insertAtTail(dummy,temp1->data);
-                temp1=temp1->next;
-                
+            p3->next=temp1;
+            temp1=temp1->next;
+            p3=p3->next;   
         }
         while(temp2!=NULL){
-            insertAtTail(dummy,temp2->data);
-                temp2=temp2->next;
-                
+            p3->next=temp2;
+            temp2=temp2->next;
+            p3=p3->next;    
         }
         return dummy->next;
     }
@@ -247,6 +249,24 @@ using namespace std;
         temp2->next=temp1;
     }
 
+    Node* mergeRecursion(Node* head1,Node* head2){
+        if(head1==NULL){
+            return head2;
+        }
+        if(head2==NULL){
+            return head1;
+        }
+        Node* result;
+        if(head1->data<head2->data){
+            result=head1;
+            result->next=mergeRecursion(head1->next,head2);
+        }
+        else{
+            result=head2;
+            result->next=mergeRecursion(head1,head2->next);
+        }
+        return result;
+    }
     int intersectionPoint(Node* &head1,Node* &head2){
         int l1=length(head1);
         int l2=length(head2);
@@ -280,6 +300,13 @@ using namespace std;
         }
         return -1;
     }
+    void deleteAllNodes(Node* &head) {
+    while (head!= NULL) {
+    Node* temp = head;
+    head = head->next;
+    delete temp;
+  }
+}
 
     int main()
     {
@@ -316,20 +343,34 @@ using namespace std;
             // display(new_head);
         Node* head1=NULL;
         Node* head2=NULL;
-        int arr[7]={1,3,4,8,10,11,12};
-        int arr2[3]={2,5,6};
-        for(int i=0; i<7;i++){
+        vector<int> arr={1,3,5,7,10,11,12};
+        vector<int> arr2={2,4,6,8};
+        for(int i=0; i<arr.size();i++){
             insertAtTail(head1,arr[i]);
         }
-        for(int i=0; i<3;i++){
+        for(int i=0; i<arr2.size();i++){
             insertAtTail(head2,arr2[i]);
         }
         // Node* head3=mergeTowSortedList(head1,head2);
         //display(appendKTail(head1,3))
         //intersect(head1,head2,5);
+        /*
         display(head1);
         display(head2);
         cout<<intersectionPoint(head1,head2);
+        */
+        display(head1);
+        display(head2);
+        Node* h1=mergeTowSortedList(head1,head2);
+        display(h1);
+        
+
+
+
+
+
+        //display(mergeRecursion(head1,head2));
+        
 
 
         return 0;
